@@ -1,6 +1,7 @@
 #include <ctype.h>
 #include <userlog.h>
 #include <atmi.h>
+#include <stdlib.h>
 
 int tpsvrinit(int argc, char *argv[]) {
   userlog("Server %s started", argv[0]);
@@ -10,14 +11,12 @@ int tpsvrinit(int argc, char *argv[]) {
 void tpsvrdone() { userlog("Server stopped"); }
 
 #ifdef __cplusplus
-extern "C" void TOUPPER(TPSVCINFO *svcinfo);
+extern "C" void SLEEPER(TPSVCINFO *svcinfo);
 #endif
 
-void TOUPPER(TPSVCINFO *svcinfo) {
+void SLEEPER(TPSVCINFO *svcinfo) {
   userlog("Received string '%s'", svcinfo->data);
-  for (int i = 0; i < svcinfo->len - 1; i++) {
-    svcinfo->data[i] = toupper(svcinfo->data[i]);
-  }
+  sleep(60);
   userlog("Returning string '%s'", svcinfo->data);
   tpreturn(TPSUCCESS, 0, svcinfo->data, 0, 0);
 }

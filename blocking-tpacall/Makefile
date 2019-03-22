@@ -8,7 +8,7 @@ export TUXCONFIG:=$(CURDIR)/tuxconfig
 
 default: client server tuxconfig
 	tmboot -y
-	./client "Hello, Fuxedo!"
+	strace -T -ttt -f -osyscalls.txt ./client "1234567890"
 	tmshutdown -k KILL -y
 	tmipcrm -y
 
@@ -22,7 +22,7 @@ tuxconfig: ubbconfig
 	tmloadcf -y $<
 
 server: server.c
-	buildserver -o $@ -f $< -s TOUPPER -v
+	buildserver -o $@ -f $< -s SLEEPER -v
 
 client: client.c
 	buildclient -o $@ -f $< -v
