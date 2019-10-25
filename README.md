@@ -16,3 +16,9 @@ Explore what happens under the hood of tpacall and how blocking timeout is imple
 ## blocking-tpgetrply
 
 Explore what happens under the hood of tpgetrply and how blocking and transaction timeouts are implemented.
+
+## tpadvertisex
+
+A proof of concept using SECONDARYRQ and tpadvertisex() function.
+
+Failed, reported a bug, waiting for a fix.
