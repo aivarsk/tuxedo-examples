@@ -1,4 +1,4 @@
-# fuxedo-examples
+# tuxedo-examples
 
 "Hello, world" and other examples.
 
