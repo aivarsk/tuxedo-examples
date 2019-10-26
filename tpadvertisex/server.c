@@ -4,7 +4,7 @@
 
 static char name[128];
 void SERVICE(TPSVCINFO *svcinfo) {
-  userlog("%s called for %s called", svcinfo->name, name);
+  userlog("%s called for %s", svcinfo->name, name);
   tpreturn(strcmp(svcinfo->name, name) == 0 ? TPSUCCESS : TPFAIL, 0, svcinfo->data, 0, 0);
 }
 
