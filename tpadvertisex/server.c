@@ -29,6 +29,6 @@ int tpsvrinit(int argc, char *argv[]) {
   snprintf(name, sizeof(name), "SERVICE_%s_%s", g, i);
   tpadvertise(name, SERVICE);
   snprintf(namex, sizeof(namex), "SERVICEX_%s_%s", g, i);
-  tpadvertisex(namex, SERVICEX, 0);
+  tpadvertisex(namex, SERVICEX, TPSINGLETON + TPSECONDARYRQ);
   return 0;
 }
