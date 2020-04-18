@@ -1,0 +1,38 @@
+#include <assert.h>
+#include <atmi.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <userlog.h>
+#include <sqlca.h>
+#include <tx.h>
+
+void SERVICE1(TPSVCINFO *svcinfo) {
+  userlog(":TEST: %s called", __func__);
+  assert(tpbegin(30, TPNOFLAGS) != -1);
+
+  EXEC SQL WHENEVER SQLERROR DO userlog(":TEST: ORACLE error");
+
+  EXEC SQL BEGIN DECLARE SECTION;
+  long n;
+  EXEC SQL END DECLARE SECTION;
+
+  EXEC SQL SELECT max(n) INTO :n FROM fux_table;
+
+  n += 1;
+
+  EXEC SQL INSERT INTO fux_table(n) VALUES (:n);
+
+//  assert(tpcall("SERVICE2", svcinfo->data, svcinfo->len, &svcinfo->data, &svcinfo->len, TPNOFLAGS) != -1);
+  int cd = tpacall("SERVICE2", svcinfo->data, svcinfo->len, TPNOFLAGS);
+  sleep(5);
+  assert(tpgetrply(&cd, &svcinfo->data, &svcinfo->len, TPNOFLAGS) != -1);
+
+  assert(tpcommit(TPNOFLAGS) != -1);
+  tpreturn(TPSUCCESS, 0, svcinfo->data, svcinfo->len, 0);
+}
+
+int tpsvrinit(int argc, char *argv[]) {
+  //assert(tpopen() != -1);
+  assert(tx_open() != -1);
+  return 0;
+}
